@@ -11,10 +11,20 @@ spring:
           uri: lb://department-service
           predicates:
             - Path=/departments/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: departmentServiceCircuitBreaker
+                fallbackUri: forward:/departmentServiceFallBack
         - id: user-service
           uri: lb://user-service
           predicates:
             - Path=/users/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: userServiceCircuitBreaker
+                fallbackUri: forward:/userServiceFallBack
 
 eureka:
   client:
